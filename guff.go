@@ -43,9 +43,9 @@ func main() {
 	flag.Parse()
 
 	if *h {
-		fmt.Println("USAGE: guff URI [-pPxMlch]")
+		fmt.Println("USAGE: guff [-pPxMlch] URI")
 		flag.PrintDefaults()
-		fmt.Println("EXAMPLE: guff www.gnu.org -c 10")
+		fmt.Println("EXAMPLE: guff -c 10 www.gnu.org")
 		fmt.Println("NOTE: Additional headers should be provided in the format 'KEY:VALUE;KEY:VALUE...'")
 		os.Exit(1)
 	}
@@ -132,7 +132,33 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(res)
+	if *c > 0 {
+		for *c > 0 {
+			nRes, queryErr := MakeRequest(q, client)
+			if queryErr != nil {
+				res = res + queryErr.Error()
+			} else {
+				res = res + nRes
+			}
+			*c = *c - 1
+		}
+	}
+
+	if len(*l) > 0 {
+		f, err := os.Create(*l)
+		defer f.Close()
+		if err != nil {
+			fmt.Println("ERROR: Could not create file " + *l)
+			os.Exit(1)
+		}
+		
+		if _, err = f.WriteString(res); err != nil {
+			fmt.Println("ERROR: Could not write to file " + *l)
+			os.Exit(1)
+		}
+	} else {
+		fmt.Println(res)
+	}
 }
 
 func IsValidHTTPMethod(m HttpMethod) bool {
@@ -166,6 +192,12 @@ func MakeRequest(q Query, client *http.Client) (string, error) {
 		break
 	case Patch:
 		req, err = http.NewRequest(string(Patch), q.Uri, body)
+		break
+	case Delete:
+		req, err = http.NewRequest(string(Delete), q.Uri, body)
+		break
+	default:
+		return "", errors.New("Invalid HTTP method provided.")
 		break
 	}
 
