@@ -1,6 +1,6 @@
 # guff
 The ultra lightweight HTTP client with 0 dependencies. Guff is around ~200 lines of Go
-and performs the majority of the work that a tool like cURL does, but without the "bloat" of supporting a thousand protocols. Personally I don't find the need to use the GOPHER, or FTP modes of curl, so instead I wrote guff!
+and performs the majority of the work that a tool like cURL does, but without the "bloat" of supporting a thousand protocols. Personally I don't find the need to use the extra protocols of curl, so instead I wrote guff!
 
 Guff does one thing, and that's HTTP, and it does it damn well.
 
