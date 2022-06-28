@@ -9,10 +9,10 @@ clean:
 	rm /usr/bin/${BIN_NAME}
 
 install: build
-	cp guff /usr/bin/
+	cp ${BIN_NAME} /usr/bin/
 
 uninstall:
 	rm /usr/bin/${BIN_NAME}
 
 run: build
-	./guff
+	./${BIN_NAME}
