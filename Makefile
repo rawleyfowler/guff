@@ -1,7 +1,7 @@
 BIN_NAME="guff"
 
 build:
-	go build -o ${BIN_NAME} .
+	go build -o ${BIN_NAME}
 
 clean:
 	go clean
