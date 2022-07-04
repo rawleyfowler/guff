@@ -132,16 +132,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	if *c > 0 {
-		for *c > 0 {
-			nRes, queryErr := MakeRequest(q, client)
-			if queryErr != nil {
-				res = res + queryErr.Error()
-			} else {
-				res = res + nRes
-			}
-			*c = *c - 1
+	for *c > 0 {
+		nRes, queryErr := MakeRequest(q, client)
+		if queryErr != nil {
+			res = res + queryErr.Error()
+		} else {
+			res = res + nRes
 		}
+		*c = *c - 1
 	}
 
 	if len(*l) > 0 {
